@@ -1,0 +1,42 @@
+select sum(qty)as quantity,penjualan,lokasi,qty FROM transactions group by penjualan,lokasi,qty order by penjualan,lokasi
+
+select sum(qty)as quantity,penjualan,lokasi,harga_jual FROM transactions group by penjualan,lokasi,harga_jual order by penjualan,lokasi,harga_jual;
+
+create view temp as select sum(qty)as quantity,penjualan,lokasi,harga_jual FROM transactions group by penjualan,lokasi,harga_jual order by penjualan,lokasi,harga_jual;
+
+select * from temp;
+
+select a.qty-b.qty as sisa ,a.harga_jual-b.harga as laba_kotor,a.harga_jual,a.qty,a.penjualan,a.lokasi,b.kd_brg,b.qty,b.lokasi,b.harga modal_awal from transactions a left join stoks b
+on a.penjualan=b.kd_brg and a.lokasi=b.lokasi group by a.harga_jual,b.harga,a.qty,a.penjualan,a.lokasi,b.kd_brg,b.qty,b.lokasi,b.harga; 
+
+
+create view last_stok as select a.qty-b.qty as sisa ,a.harga_jual-b.harga as laba_kotor,a.harga_jual,a.qty,a.penjualan,a.lokasi,b.kd_brg,b.qty stok_awal,b.lokasi as lokasi_awal,b.harga modal_awal from transactions a left join stoks b
+on a.penjualan=b.kd_brg and a.lokasi=b.lokasi group by a.harga_jual,b.harga,a.qty,a.penjualan,a.lokasi,b.kd_brg,b.qty,b.lokasi,b.harga;
+
+
+	select a.quantity-b.qty as sisa,a.penjualan as kd_brg,a.lokasi,b.qty,b.lokasi from temp a left join stoks b
+	on a.penjualan=b.kd_brg and a.lokasi=b.lokasi group by a.penjualan,a.harga_jual,b.harga,a.penjualan,a.lokasi,b.qty,b.lokasi; 
+
+
+select a.penjualan,a.lokasi,b.kd_brg,b.qty,b.lokasi from transactions a left join stoks b on a.penjualan=b.kd_brg and a.lokasi=b.lokasi;
+
+
+
+id_stok | tgl_beli | kd_brg   | qty | harga | lokasi //field stoks
+
+Note
+
+saya buat 4 end point
+1. display data stok awal
+2. display data transaksi
+3. post data transaksi
+4. display data last stok
+
+ada bbrp query percobaan dan bbrp script yg saya comment krn mau mapping saat parsing dr front end
+
+saya juga membuat view sebagai temp table, untuk menampilkan data stok awal dan data stok sesudah
+jadi saya tidak mengganggu table awal (table stoks dan table transactions)
+
+last_stok (view)
+
+
